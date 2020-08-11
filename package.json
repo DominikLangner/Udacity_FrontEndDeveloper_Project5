@@ -1,0 +1,25 @@
+{
+  "name": "udacity_frontenddeveloper_project3",
+  "version": "1.0.0",
+  "description": "![Mention Version Here](https://img.shields.io/badge/version-v0.0.1-blue)\r ![GitHub contributors](https://img.shields.io/github/contributors/madhur-taneja/README-Template)\r ![GitHub stars](https://img.shields.io/github/stars/madhur-taneja/README-Template?style=social)\r ![GitHub forks](https://img.shields.io/github/forks/madhur-taneja/README-Template?style=social)\r ![Twitter Follow](https://img.shields.io/twitter/follow/madhurtaneja2?style=social)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DominikLangner/Udacity_FrontEndDeveloper_Project3.git"
+  },
+  "author": "Dominik Langner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DominikLangner/Udacity_FrontEndDeveloper_Project3/issues"
+  },
+  "homepage": "https://github.com/DominikLangner/Udacity_FrontEndDeveloper_Project3#readme",
+  "devDependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  }
+}
