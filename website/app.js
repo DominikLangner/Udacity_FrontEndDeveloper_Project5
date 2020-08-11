@@ -10,19 +10,12 @@ document.getElementById("generate").addEventListener("click", performAction);
 // What happens when button is clicked
 function performAction() {
   console.log("PerformAction performed");
-  //const performAction = function async() {
   let zip = document.getElementById("zip").value;
   getUserInput();
-  /*getWeather(baseURL, zip, apiKey, options).then((data) => {
-    console.log(data.main.temp); */
   getWeather(baseURL, zip, apiKey, options)
     .then((raw) => postData("/add", combineData(raw)))
     .then(() => retrieveData("/entries"))
     .then(updateUI);
-
-  console.log(newDate);
-  // console.log(data);
-  //showData();
 }
 
 /* Weather API */
@@ -34,12 +27,10 @@ let options = "&units=metric";
 let apiKey = "&appid=" + myKey;
 
 const getWeather = async (baseURL, zip, apiKey, options) => {
-  //console.log(baseURL + zip + apiKey + options);
   const res = await fetch(baseURL + zip + apiKey + options);
 
   try {
     const data = await res.json();
-    // console.log(data);
     return data;
   } catch (error) {
     console.log("error", error);
@@ -67,11 +58,7 @@ const combineData = (data) => {
     Date: newDate,
     Feelings: getUserInput(),
   };
-  console.log(combinedData);
   return combinedData;
-  //console.log(data.main.temp, newDate, getUserInput());
-  //return data.main.temp, newDate, getUserInput();
-  //console.log(combinedData);
 };
 
 // Async POST
@@ -82,7 +69,7 @@ const postData = async (url = "", data = {}) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data), // body data type must match "Content-Type" header
+    body: JSON.stringify(data),
   });
 };
 
@@ -107,32 +94,3 @@ const updateUI = (allData) => {
   document.getElementById("temp").innerHTML = allData.data[0].Temperature;
   document.getElementById("content").innerHTML = allData.data[0].Feelings;
 };
-
-//postData("/add", { answer: 42 });
-
-/*
-function post() {
-  postData("/client2server", { fav: "lion" });
-  console.log("Posted ");
-}
-*/
-
-/*
-// TODO-Chain your async functions to post an animal then GET the resulting data
-function postGet() {
-  postData("/animal", { fav: "lion" }).then(function (data) {
-    retrieveData("/all");
-  });
-}
-
-// TODO-Call the chained function
-postGet();
-
-*/
-
-/*postData("/userinput", {
-  temperature: data.main,
-  date: newDate,
-  userResponse: data.userResp,
-});
-*/
