@@ -9,7 +9,6 @@ document.getElementById("generate").addEventListener("click", performAction);
 
 // What happens when button is clicked
 function performAction() {
-  console.log("PerformAction performed");
   let zip = document.getElementById("zip").value;
   getUserInput();
   getWeather(baseURL, zip, apiKey, options)
@@ -43,7 +42,6 @@ const getWeather = async (baseURL, zip, apiKey, options) => {
 const getUserInput = () => {
   try {
     const userInput = document.getElementById("feelings").value;
-    console.log(userInput);
     return userInput;
   } catch (error) {
     console.log("error", error);
@@ -79,8 +77,6 @@ const retrieveData = async (url = "") => {
   try {
     // Transform into JSON
     const allData = await request.json();
-    console.log("retrievData is running");
-    console.log(allData);
     return allData;
   } catch (error) {
     console.log("error", error);
@@ -89,8 +85,10 @@ const retrieveData = async (url = "") => {
 
 /* UPDATE UI */
 const updateUI = (allData) => {
-  console.log("Updating UI in progress...");
-  document.getElementById("date").innerHTML = allData.data[0].Date;
-  document.getElementById("temp").innerHTML = allData.data[0].Temperature;
-  document.getElementById("content").innerHTML = allData.data[0].Feelings;
+  lastElement = allData.data.length - 1;
+  document.getElementById("date").innerHTML = allData.data[lastElement].Date;
+  document.getElementById("temp").innerHTML =
+    allData.data[lastElement].Temperature;
+  document.getElementById("content").innerHTML =
+    allData.data[lastElement].Feelings;
 };
