@@ -2,6 +2,8 @@
 
 import flatpickr from "flatpickr";
 
+//import xml2js from "xml2js";
+
 /*Server Stuff */
 
 //Async POST
@@ -121,4 +123,4 @@ const updateUI = (allData) => {
 };
 */
 
-export { dateChanged, sendInfosToServer };
+export { dateChanged, sendInfosToServer, xml2js };

@@ -47,6 +47,7 @@ function c2s(req, res) {
   console.log(queryData);
   //console.log(projectData);
   getPic(queryData.destination);
+  getPlaceCoordinates(queryData.destination);
   res.send("POST received"); // not working yet
 }
 
@@ -55,16 +56,13 @@ function c2s(req, res) {
 function getPic(destination) {
   //let destination = projectData.data[0].destination;
 
-  getPixabayPic(destination).then(
-    (pixabayData) => {
-      let pixaBayImageUrl = pixabayData.hits[0].largeImageURL;
-      console.log(pixaBayImageUrl);
-      //projectData.data[0].image.push(pixaBayImageUrl);
-      projectData.data[0].imageUrl = pixaBayImageUrl;
-      console.log(projectData.data);
-    }
-    //.hits[0].largeImageURL
-  );
+  getPixabayPic(destination).then((pixabayData) => {
+    let pixaBayImageUrl = pixabayData.hits[0].largeImageURL;
+    console.log(pixaBayImageUrl);
+    //projectData.data[0].image.push(pixaBayImageUrl);
+    projectData.data[0].imageUrl = pixaBayImageUrl;
+    console.log(projectData.data);
+  });
 }
 
 ////////////////////////// query pixabay API
@@ -98,7 +96,41 @@ const getPixabayPic = async (place) => {
   }
 };
 
-////////////END of PIXABAY API QUERY
+////////////END of GEONAMES API QUERY
+
+// Async POST
+const getPlaceCoordinates = async (place) => {
+  let apiCall =
+    "http://api.geonames.org/searchJSON?q=" +
+    place +
+    "&maxRows=1&username=" +
+    process.env.GEONAMES_API_KEY;
+
+  let getPlaceCoordinates = await fetch(apiCall, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  try {
+    // Transform into JSON
+    const allGeonamesData = await getPlaceCoordinates.json();
+    let lat = allGeonamesData.geonames[0].lat;
+    let lng = allGeonamesData.geonames[0].lng;
+    console.log(lat, " / ", lng);
+    const coordinates = {};
+    coordinates.lat = lat;
+    coordinates.lng = lng;
+    projectData.data[0].coordinates = coordinates;
+    console.log(projectData);
+    return allGeonamesData;
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
+////////////END of GEONAMES API QUERY
 
 // GET route
 app.get("/s2c", s2c);
