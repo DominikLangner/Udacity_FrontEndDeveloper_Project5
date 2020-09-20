@@ -1,5 +1,5 @@
 ### API Keys ###
-website/config.js
+.env
 
 ### Other ##
 node_modules/
