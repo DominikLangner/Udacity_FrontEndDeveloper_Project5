@@ -123,4 +123,4 @@ const updateUI = (allData) => {
 };
 */
 
-export { dateChanged, sendInfosToServer, xml2js };
+export { dateChanged, sendInfosToServer };

@@ -24,7 +24,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "identity-obj-proxy": "^3.0.0",
-    "moment": "^2.28.0",
+    "moment": "^2.29.0",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
