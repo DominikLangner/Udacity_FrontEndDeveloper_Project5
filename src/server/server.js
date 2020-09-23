@@ -11,7 +11,7 @@ console.log(`Your weatherbit API key is ${process.env.WEATHERBIT_API_KEY}`);
 console.log("------------------------------");
 console.log(" ");
 // Setup empty JS object to act as endpoint for all routes
-projectData = { data: [] };
+projectData = { current: {} };
 
 // Require Express to run server and routes
 const express = require("express");
@@ -49,20 +49,17 @@ app.post("/c2s", c2s);
 
 function c2s(req, res) {
   let queryData = req.body;
-  projectData.data.push(queryData);
-  console.log(queryData);
-  //console.log("projectData.data[0].date : ", projectData.data[0].date);
+  projectData.current = queryData;
+  console.log("queryData: ", queryData);
   getPic(queryData.destination);
   getPlaceCoordinates(queryData.destination).then((coordinates) => {
-    // let lat = coordinates.lat;
-    // let lng = coordinates.lng;
     console.log(
       "Then part of c2s reached. Coordinates are :",
       coordinates,
       "Date is :",
-      projectData.data[0].date
+      projectData.current.date
     );
-    getWeather(coordinates, projectData.data[0].date);
+    getWeather(coordinates, projectData.current.date);
   });
 
   res.send("POST received"); // not working yet
@@ -71,14 +68,11 @@ function c2s(req, res) {
 ////////////////////////GET PIC:
 
 function getPic(destination) {
-  //let destination = projectData.data[0].destination;
-
   getPixabayPic(destination).then((pixabayData) => {
     let pixaBayImageUrl = pixabayData.hits[0].largeImageURL;
     console.log(pixaBayImageUrl);
-    //projectData.data[0].image.push(pixaBayImageUrl);
-    projectData.data[0].imageUrl = pixaBayImageUrl;
-    console.log(projectData.data);
+    projectData.current.imageUrl = pixaBayImageUrl;
+    console.log(projectData.current);
   });
 }
 
@@ -139,8 +133,8 @@ const getPlaceCoordinates = async (place) => {
     const coordinates = {};
     coordinates.lat = lat;
     coordinates.lng = lng;
-    projectData.data[0].coordinates = coordinates;
-    console.log(projectData);
+    projectData.current.coordinates = coordinates;
+    console.log("141: ", projectData);
     return coordinates;
   } catch (error) {
     console.log("error", error);
@@ -155,15 +149,14 @@ const getPlaceCoordinates = async (place) => {
 //current?lat...
 
 /////// WEATHERBIT - 16 days forecast
-const getWeather_16DaysForecast = async (lat_lng) => {
+const getWeather_16DaysForecast = async (lat_lng, date) => {
   let weatherCall_16DaysForecast =
     "https://api.weatherbit.io/v2.0/forecast/daily?";
-
-  let date = projectData.data[0].date;
-  let day = projectData.data[0].date.split("/")[0];
-  let month = projectData.data[0].date.split("/")[1];
-  let dateString = month + "-" + day;
-  console.log(date, "\n", dateString);
+  //let date = projectData.current.date;
+  //let day = date.split("/")[0];
+  //let month = date.split("/")[1];
+  //let dateString = month + "-" + day;
+  //console.log(date, "\n", dateString);
 
   let apiCall_16DaysForcast =
     weatherCall_16DaysForecast +
@@ -185,9 +178,18 @@ const getWeather_16DaysForecast = async (lat_lng) => {
     // Transform into JSON
     const weather = await getWeatherData.json();
     console.log("Weather Data:");
-    console.log(dateString);
-    console.log(weather);
-    return weather;
+    // find index of weather data for the travel-day:
+    let index = moment(date).days() - moment().days() - 1;
+    let weatherData = weather.data[index];
+    console.log("Moments-Diff is: ", index);
+    console.log("16 Tage Wetter: ", weatherData);
+    projectData.current.weather.temp = weatherData.temp;
+    projectData.current.weather.temp_min = weatherData.min_temp;
+    projectData.current.weather.temp_max = weatherData.max_temp;
+    projectData.current.weather.wind = weatherData.wind_spd;
+    projectData.current.weather.snow = weatherData.snow;
+    console.log(projectData.current);
+    return weather.data[index];
   } catch (error) {
     console.log("error", error);
   }
@@ -197,35 +199,34 @@ const getWeather_16DaysForecast = async (lat_lng) => {
 var moment = require("moment");
 
 const getWeather = async (coordinates, d) => {
-  console.log("_________________________");
-  console.log("HIER DATE mit aktuellem datum vergleichen:");
-  let date =
-    d.split("/")[2] + "-" + d.split("/")[1] + "-" + d.split("/")[0] + "";
+  let date = d.split("/")[2] + "-" + d.split("/")[1] + "-" + d.split("/")[0];
   console.log("date: ", date);
+  let today17 = moment().add(17, "d");
+  let forecast = moment(date).isBefore(today17);
+  projectData.current.weather = {};
+  projectData.current.weather.forecast = forecast;
 
-  //////////////////////////////////////////////////////////////
-  console.log(moment(date).isBefore(moment().add(16, "d")));
-  let check = moment(date).isBefore(moment().add(16, "d"));
-  console.log(check);
   ///////////////////////////////////////////////////
 
-  if (check) {
-    console.log("today+16days is before travel date");
+  if (forecast) {
+    console.log(
+      "travel date is within the next 16 days --> getting 16days forecast"
+    );
+    getWeather_16DaysForecast(coordinates, date);
   } else {
-    console.log("DAtum ist NICHT vor travelDate");
+    console.log(
+      "travel date is NOT within the next 16 days --> getting climate nomrals instead of forecast"
+    );
+    getWeather_climateNormals(coordinates);
   }
-
-  // let today2 = moment(date).add(16, "d").format("DD-MM-yy");
-  //console.log("today2: ", today2);
 };
 
 ///////////////// WEATHERBIT climate normals (for date > today+16days)
 const getWeather_climateNormals = async (lat_lng) => {
-  let date = projectData.data[0].date;
-  let day = projectData.data[0].date.split("/")[0];
-  let month = projectData.data[0].date.split("/")[1];
+  let date = projectData.current.date;
+  let day = date.split("/")[0];
+  let month = date.split("/")[1];
   let dateString = month + "-" + day;
-  console.log(date, "\n", dateString);
 
   let weatherCall_climateNormals =
     "https://api.weatherbit.io/v2.0/normals" +
@@ -253,6 +254,13 @@ const getWeather_climateNormals = async (lat_lng) => {
     console.log("Weather Data:");
     console.log(dateString);
     console.log(weather);
+
+    projectData.current.weather.temp = weather.data[0].temp;
+    projectData.current.weather.temp_min = weather.data[0].min_temp;
+    projectData.current.weather.temp_max = weather.data[0].max_temp;
+    projectData.current.weather.wind = weather.data[0].wind_spd;
+    projectData.current.weather.snow = weather.data[0].snow;
+    console.log(projectData.current);
     //const coordinates = {};
     //coordinates.lat = lat;
     //coordinates.lng = lng;
