@@ -33,78 +33,22 @@ let sendInfosToServer = () => {
   console.log(travelDetails);
   console.log(travelDetails.destination);
   console.log(travelDetails.date);
-  postData("http://localhost:8081/c2s", travelDetails);
+
+  postData("http://localhost:8081/c2s", travelDetails).then(
+    retrieveData("http://localhost:8081/s2c")
+  );
+
+  // let textanswer = createAnswerText(res);
+  //  document.getElementById("results").innerText = textanswer;
 };
-
-// var example = flatpickr("#flatpickr-tryme");
-/*
-// Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getDate() + "." + d.getMonth() + "." + d.getFullYear();
-
-// Click Listener for "generate"-button
-document.getElementById("generate").addEventListener("click", performAction);
-
-// What happens when button is clicked
-function performAction() {
-  let zip = document.getElementById("zip").value;
-  getUserInput();
-  getWeather(baseURL, zip, apiKey, options)
-    .then((raw) => postData("/add", combineData(raw)))
-    .then(() => retrieveData("/entries"))
-    .then(updateUI);
-}
-
-/* Weather API */
-// Client side code that makes a GET request to the weather info API:
-/*
-let myKey = "15081f578b62ac327eed8d6972024522";
-const baseURL = "http://api.openweathermap.org/data/2.5/weather?q=";
-let options = "&units=metric";
-let apiKey = "&appid=" + myKey;
-
-const getWeather = async (baseURL, zip, apiKey, options) => {
-  const res = await fetch(baseURL + zip + apiKey + options);
-
-  try {
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.log("error", error);
-  }
-};
-*/
-/*  User Input  */
-// Client side code that gets the user input from the text field:
-/*
-const getUserInput = () => {
-  try {
-    const userInput = document.getElementById("feelings").value;
-    return userInput;
-  } catch (error) {
-    console.log("error", error);
-  }
-};
-*/
-/* create data to show in the app */
-// Temperature, Date, UserInput
-/*
-const combineData = (data) => {
-  let combinedData = {
-    Temperature: data.main.temp,
-    Date: newDate,
-    Feelings: getUserInput(),
-  };
-  return combinedData;
-};
-*/
 
 // Async GET
-const retrieveData = async (url = "") => {
+let retrieveData = async (url = "http://localhost:8081/s2c", res) => {
   const request = await fetch(url);
   try {
     // Transform into JSON
     const allData = await request.json();
+    console.log("RETRIEVED DATA.current:", allData.current);
     return allData;
   } catch (error) {
     console.log("error", error);
@@ -123,4 +67,4 @@ const updateUI = (allData) => {
 };
 */
 
-export { dateChanged, sendInfosToServer };
+export { dateChanged, sendInfosToServer, retrieveData };

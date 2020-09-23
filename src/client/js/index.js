@@ -1,7 +1,7 @@
 //import xml2js from "xml2js";
 import { dateChanged } from "./app";
 import { sendInfosToServer } from "./app";
-//import { handleSubmit } from "./js/formHandler";
+import { retrieveData } from "./app";
 
 import flatpickr from "flatpickr";
 flatpickr("#flatpickr", {
@@ -11,14 +11,6 @@ flatpickr("#flatpickr", {
 
 import "../views/style.scss";
 import "../../../node_modules/flatpickr/dist/flatpickr.min.css";
-//import { xml2js } from "xml-js";
-/*import "./styles/base.scss";
-import "./styles/form.scss";
-import "./styles/footer.scss";
-import "./styles/header.scss";
-export { checkValidUrl, handleSubmit };
-*/
-//export { flatpickr, sendInfosToServer };
 
 ////////////////////////////////////////
 //                                    //

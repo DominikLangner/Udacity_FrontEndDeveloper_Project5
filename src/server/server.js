@@ -53,16 +53,18 @@ function c2s(req, res) {
   console.log("queryData: ", queryData);
   getPic(queryData.destination);
   getPlaceCoordinates(queryData.destination).then((coordinates) => {
-    console.log(
-      "Then part of c2s reached. Coordinates are :",
-      coordinates,
-      "Date is :",
-      projectData.current.date
-    );
     getWeather(coordinates, projectData.current.date);
+    //  })
+    //   .then((projectData) => {
+    //    s2c;
   });
+  //   .then(() => {
+  //     app.get("/s2c", function async(req, res) {
+  //      res.send(projectData);
+  //    });
+  //  });
 
-  res.send("POST received"); // not working yet
+  //res.send("POST received"); // not working yet
 }
 
 ////////////////////////GET PIC:
@@ -150,16 +152,8 @@ const getPlaceCoordinates = async (place) => {
 
 /////// WEATHERBIT - 16 days forecast
 const getWeather_16DaysForecast = async (lat_lng, date) => {
-  let weatherCall_16DaysForecast =
-    "https://api.weatherbit.io/v2.0/forecast/daily?";
-  //let date = projectData.current.date;
-  //let day = date.split("/")[0];
-  //let month = date.split("/")[1];
-  //let dateString = month + "-" + day;
-  //console.log(date, "\n", dateString);
-
   let apiCall_16DaysForcast =
-    weatherCall_16DaysForecast +
+    "https://api.weatherbit.io/v2.0/forecast/daily?" +
     "&lat=" +
     lat_lng.lat +
     "&lon=" +
@@ -195,7 +189,7 @@ const getWeather_16DaysForecast = async (lat_lng, date) => {
   }
 };
 
-//////////////////////// Datumsvergleich, dann richtige API aufrufen
+//////////////////////// Compare dates to call the correct API (16 day forecast / climate normals)
 var moment = require("moment");
 
 const getWeather = async (coordinates, d) => {
@@ -261,11 +255,6 @@ const getWeather_climateNormals = async (lat_lng) => {
     projectData.current.weather.wind = weather.data[0].wind_spd;
     projectData.current.weather.snow = weather.data[0].snow;
     console.log(projectData.current);
-    //const coordinates = {};
-    //coordinates.lat = lat;
-    //coordinates.lng = lng;
-    //projectData.data[0].coordinates = coordinates;
-    //console.log(projectData);
     return weather;
   } catch (error) {
     console.log("error", error);
@@ -275,8 +264,7 @@ const getWeather_climateNormals = async (lat_lng) => {
 //////////////END WEATHERBIT climate normals
 
 // GET route
-app.get("/s2c", s2c);
 
-function s2c(request, response) {
-  response.send(projectData);
-}
+app.get("/s2c", function (req, res) {
+  res.send(projectData);
+});
