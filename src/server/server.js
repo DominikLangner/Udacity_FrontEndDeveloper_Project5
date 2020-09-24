@@ -203,24 +203,30 @@ const getWeather = async (coordinates, d) => {
   console.log("date: ", date);
   let today17 = moment().add(17, "d");
   let forecast = moment(date).isBefore(today17);
-  projectData.current.weather = {};
-  projectData.current.weather.forecast = forecast;
+
+  ////////////////// check if date is before today:
+  let pastDate = moment(date).isBefore(moment());
+  projectData.current.pastDate = pastDate;
 
   ///////////////////////////////////////////////////
-
-  if (forecast) {
-    console.log(
-      "travel date is within the next 16 days --> getting 16days forecast"
-    );
-    getWeather_16DaysForecast(coordinates, date);
+  if (pastDate) {
+    return "Travel date is in the past";
   } else {
-    console.log(
-      "travel date is NOT within the next 16 days --> getting climate nomrals instead of forecast"
-    );
-    getWeather_climateNormals(coordinates);
+    projectData.current.weather = {};
+    projectData.current.weather.forecast = forecast;
+    if (forecast) {
+      console.log(
+        "travel date is within the next 16 days --> getting 16days forecast"
+      );
+      getWeather_16DaysForecast(coordinates, date);
+    } else {
+      console.log(
+        "travel date is NOT within the next 16 days --> getting climate nomrals instead of forecast"
+      );
+      getWeather_climateNormals(coordinates);
+    }
   }
 };
-
 ///////////////// WEATHERBIT climate normals (for date > today+16days)
 const getWeather_climateNormals = async (lat_lng) => {
   let date = projectData.current.date;
