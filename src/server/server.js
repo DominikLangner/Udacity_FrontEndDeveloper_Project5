@@ -52,12 +52,9 @@ function c2s(req, res) {
   projectData.current = queryData;
   console.log("queryData: ", queryData);
   let promise1 = getPic(queryData.destination);
-  let promise2 = getPlaceCoordinates(queryData.destination).then(
-    (coordinates) => {
-      getWeather(coordinates, projectData.current.date);
-      console.log("weather");
-    }
-  );
+  let promise2 = getPlaceCoordinates(
+    queryData.destination
+  ).then((coordinates) => getWeather(coordinates, projectData.current.date));
   Promise.all([promise1, promise2]).then(() => {
     console.log("All");
     res.send("POST received");
@@ -158,7 +155,7 @@ const getPlaceCoordinates = async (place) => {
 
 /////// WEATHERBIT - 16 days forecast
 const getWeather_16DaysForecast = async (lat_lng, date) => {
-  let apiCall_16DaysForcast =
+  let apiCall_16DaysForecast =
     "https://api.weatherbit.io/v2.0/forecast/daily?" +
     "&lat=" +
     lat_lng.lat +
@@ -167,7 +164,7 @@ const getWeather_16DaysForecast = async (lat_lng, date) => {
     "&key=" +
     process.env.WEATHERBIT_API_KEY;
 
-  let getWeatherData = await fetch(apiCall_16DaysForcast, {
+  let getWeatherData = await fetch(apiCall_16DaysForecast, {
     method: "POST",
     credentials: "same-origin",
     headers: {
@@ -179,7 +176,8 @@ const getWeather_16DaysForecast = async (lat_lng, date) => {
     const weather = await getWeatherData.json();
     console.log("Weather Data:");
     // find index of weather data for the travel-day:
-    let index = moment(date).diff(moment().startOf("day"), "days") - 1;
+    console.log(weather.data);
+    let index = moment(date).diff(moment().startOf("day"), "days");
     let weatherData = weather.data[index];
     console.log("Moments-Diff is: ", index);
     console.log("16 Tage Wetter: ", weatherData);
@@ -205,11 +203,14 @@ const getWeather = async (coordinates, d) => {
   let forecast = moment(date).isBefore(today17);
 
   ////////////////// check if date is before today:
-  let pastDate = moment(date).isBefore(moment());
+  let date2 = moment(date).add(1, "d");
+  let pastDate = moment(date2).isBefore(moment());
   projectData.current.pastDate = pastDate;
 
   ///////////////////////////////////////////////////
   if (pastDate) {
+    projectData.current.weather = {};
+    projectData.current.weather.forecast = "past";
     return "Travel date is in the past";
   } else {
     projectData.current.weather = {};
@@ -218,12 +219,12 @@ const getWeather = async (coordinates, d) => {
       console.log(
         "travel date is within the next 16 days --> getting 16days forecast"
       );
-      getWeather_16DaysForecast(coordinates, date);
+      return getWeather_16DaysForecast(coordinates, date);
     } else {
       console.log(
         "travel date is NOT within the next 16 days --> getting climate nomrals instead of forecast"
       );
-      getWeather_climateNormals(coordinates);
+      return getWeather_climateNormals(coordinates);
     }
   }
 };

@@ -8,7 +8,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const flatpickr = require("flatpickr");
 
 module.exports = {
-  entry: "./src/client/index.js",
+  entry: "./src/client/js/index.js",
   mode: "production",
   output: {
     libraryTarget: "var",
@@ -24,6 +24,10 @@ module.exports = {
       {
         test: /\.scss$/,
         use: ["style-loader", "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
       },
     ],
   },

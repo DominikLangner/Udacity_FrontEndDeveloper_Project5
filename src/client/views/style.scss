@@ -1,15 +1,15 @@
 body {
-  background: #fffff8;
+  background: #09350d;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 #app {
   display: grid;
-  grid-auto-rows: minmax(150px, auto);
+  grid-auto-rows: minmax(0px, auto);
   grid-template-columns: 50vw, 50vw;
-  /* height: 100vh; */
-  background: #f23557;
-  color: #f0d43a;
+  /*height: 100vh;*/
+  background: #6e8651;
+  color: #09350d;
   justify-content: center;
   align-items: stretch;
   grid-gap: 1em;
@@ -21,7 +21,13 @@ body {
 }
 
 .entry {
-  background: rgba(59, 74, 107, 0.4);
+  background: #6e8651;
+  .title {
+    font-size: 1.4em;
+  }
+  #reportType {
+    margin-bottom: 1.5em;
+  }
 }
 
 #entryHolder {
@@ -51,18 +57,26 @@ input {
   display: block;
   height: 60px;
   width: 320px;
-  background: #22b2da;
-  color: #f0d43a;
+  background: #216b27;
+  background-color: #216b27;
+  color: #2e2d29;
   font-size: 20px;
   font-family: "Oswald", sans-serif;
   border: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 40px #216b27 inset !important;
 }
 
 button {
   width: 400px;
   height: 100px;
   background: #3b4a6b;
-  color: #f0d43a;
+  color: #2e2d29;
   font-size: 26px;
   font-family: "Oswald", sans-serif;
   border: none;
@@ -74,7 +88,7 @@ h1 {
 
 textarea {
   background: #22b2da;
-  color: #f0d43a;
+  color: #2e2d29;
   font-size: 20px;
   font-family: "Oswald", sans-serif;
 }
@@ -88,7 +102,7 @@ button:focus {
 /* Style for Placeholder Text*/
 ::placeholder {
   /* Firefox, Chrome, Opera */
-  color: #f0d43a;
+  color: #2e2d29;
   font-family: "Oswald", sans-serif;
 }
 

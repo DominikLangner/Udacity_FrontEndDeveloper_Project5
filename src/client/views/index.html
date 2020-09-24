@@ -6,15 +6,16 @@
 
   <body>
     <div id="app">
+      <img id="image" src="src/client/views/img/element5-digital-uE2T1tCFsn8-unsplash.jpg" width=40% hight=40%></img>
       <div class="holder headline">Travel App</div>
       <div class="holder destination">
         <label for="destination">Destination</label>
-        <input type="text" id="destination" placeholder="City, Country" />
+        <input  type="text" id="destination" placeholder="City, Country" />
     
       </div>
       <div class="chooseDate">
         <label for="flatpickr">Pick a date for your travel:</label>
-        <input input id="flatpickr" placeholder="dd/mm/yyyy" />
+        <input id="flatpickr" placeholder="dd/mm/yyyy" />
       </div>
       <!--<div class="holder feel">
         <label for="feelings">How are you feeling today?</label>
@@ -29,11 +30,14 @@
       </div>
     -->
       <div class="holder entry">
-        <div class="title">Most Recent Entry</div>
+        <div class="title">Weather-Report</div>
+        <div id="reportType"></div>
         <div id="entryHolder">
-          <div id="date"></div>
-          <div id="temp"></div>
-          <div id="content"></div>
+          <div id="resultDestination"></div>
+          <div id="resultDate"></div>
+          <div id="resultTemp"></div>
+          <div id="resultWind"></div>
+          <div id="resultSnow"></div>
         </div>
       </div>
     </div>

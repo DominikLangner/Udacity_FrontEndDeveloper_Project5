@@ -39,26 +39,6 @@ document.getElementById("destination").addEventListener("change", () => {
     : console.log("no date");
 });
 
-////////////check if traveldate is before today:
-var moment = require("moment");
-/*
-let date_ok = () => {
-  let f_date = document.getElementById("flatpickr").value;
-  let date =
-    f_date.split("/")[2] +
-    "-" +
-    f_date.split("/")[1] +
-    "-" +
-    f_date.split("/")[0];
-  console.log("date: ", date);
-  if (moment(date).isBefore(moment())) {
-    console.log("SORRY; TRAVEL DATE BEFORE TODAY");
-    exit;
-  } else {
-  }
-};
-*/
-
 /////////check if fields "destination" & "date" are set
 let fields_ok = () => {
   let x;
