@@ -8,7 +8,7 @@ import flatpickr from "flatpickr";
 
 //Async POST
 const postData = async (url = "", data = {}) => {
-  await fetch(url, {
+  let request = await fetch(url, {
     method: "POST",
     credentials: "same-origin",
     headers: {
@@ -16,6 +16,13 @@ const postData = async (url = "", data = {}) => {
     },
     body: JSON.stringify(data),
   });
+  try {
+    // Transform into JSON
+    //  const allData = await request;
+    await request;
+  } catch (error) {
+    console.log("error", error);
+  }
 };
 
 /* Functions */
@@ -34,7 +41,7 @@ let sendInfosToServer = () => {
   console.log(travelDetails.destination);
   console.log(travelDetails.date);
 
-  postData("http://localhost:8081/c2s", travelDetails).then(
+  postData("http://localhost:8081/c2s", travelDetails).then(() =>
     retrieveData("http://localhost:8081/s2c")
   );
 

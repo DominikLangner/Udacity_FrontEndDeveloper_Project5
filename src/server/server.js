@@ -51,12 +51,16 @@ function c2s(req, res) {
   let queryData = req.body;
   projectData.current = queryData;
   console.log("queryData: ", queryData);
-  getPic(queryData.destination);
-  getPlaceCoordinates(queryData.destination).then((coordinates) => {
-    getWeather(coordinates, projectData.current.date);
-    //  })
-    //   .then((projectData) => {
-    //    s2c;
+  let promise1 = getPic(queryData.destination);
+  let promise2 = getPlaceCoordinates(queryData.destination).then(
+    (coordinates) => {
+      getWeather(coordinates, projectData.current.date);
+      console.log("weather");
+    }
+  );
+  Promise.all([promise1, promise2]).then(() => {
+    console.log("All");
+    res.send("POST received");
   });
   //   .then(() => {
   //     app.get("/s2c", function async(req, res) {
@@ -75,6 +79,7 @@ function getPic(destination) {
     console.log(pixaBayImageUrl);
     projectData.current.imageUrl = pixaBayImageUrl;
     console.log(projectData.current);
+    console.log("pic");
   });
 }
 
@@ -137,6 +142,7 @@ const getPlaceCoordinates = async (place) => {
     coordinates.lng = lng;
     projectData.current.coordinates = coordinates;
     console.log("141: ", projectData);
+    console.log("coord");
     return coordinates;
   } catch (error) {
     console.log("error", error);
@@ -173,7 +179,7 @@ const getWeather_16DaysForecast = async (lat_lng, date) => {
     const weather = await getWeatherData.json();
     console.log("Weather Data:");
     // find index of weather data for the travel-day:
-    let index = moment(date).days() - moment().days() - 1;
+    let index = moment(date).diff(moment().startOf("day"), "days") - 1;
     let weatherData = weather.data[index];
     console.log("Moments-Diff is: ", index);
     console.log("16 Tage Wetter: ", weatherData);
@@ -266,5 +272,6 @@ const getWeather_climateNormals = async (lat_lng) => {
 // GET route
 
 app.get("/s2c", function (req, res) {
+  console.log("s2c");
   res.send(projectData);
 });
