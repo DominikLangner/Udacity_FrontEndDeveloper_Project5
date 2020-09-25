@@ -2,7 +2,12 @@
 
 import flatpickr from "flatpickr";
 
-//import xml2js from "xml2js";
+//import image
+
+import homeIcon from "../views/img/element5-digital-uE2T1tCFsn8-unsplash.jpg";
+
+var travelImg = document.getElementById("travelImg");
+travelImg.src = homeIcon;
 
 /*Server Stuff */
 
@@ -85,13 +90,15 @@ const updateUI = (allData) => {
       "Destination: " + allData.current.destination;
     document.getElementById("resultDate").innerHTML =
       "Travel Date: " + allData.current.date;
+    document.getElementById("daysLeft").innerHTML =
+      "Days untill your travel: " + allData.current.daysLeft;
     document.getElementById("resultTemp").innerHTML =
       "Average temperature (°C): " + allData.current.weather.temp;
     document.getElementById("resultWind").innerHTML =
       "Average wind speed (m/s): " + allData.current.weather.wind;
     document.getElementById("resultSnow").innerHTML =
       "Average snow (mm): " + allData.current.weather.snow;
-    document.getElementById("image").src = allData.current.imageUrl;
+    document.getElementById("travelImg").src = allData.current.imageUrl;
   }
 };
 

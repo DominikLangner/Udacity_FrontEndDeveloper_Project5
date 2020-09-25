@@ -3,6 +3,13 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+#travelImg {
+  max-height: 30vh;
+  min-height: 150px;
+  width: auto;
+  margin: 20px auto 0 auto;
+}
+
 #app {
   display: grid;
   grid-auto-rows: minmax(0px, auto);

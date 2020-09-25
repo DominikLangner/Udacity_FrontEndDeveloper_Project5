@@ -16,7 +16,7 @@
         <label for="flatpickr">Pick a date for your travel:</label>
         <input id="flatpickr" placeholder="dd/mm/yyyy" />
       </div>
-     
+      
       <div class="holder entry">
         <div class="title">Weather-Report</div>
         <div id="reportType"></div>
@@ -31,9 +31,10 @@
       </div>
     </div>
    
-   <!-- service worker test:
 
-  <script>
+   <!-- service worker for prod-env: -->
+
+   <script>
     // Check that service workers are supported
     if ('serviceWorker' in navigator) {
         // Use the window load event to keep the page load performant
@@ -41,9 +42,9 @@
             navigator.serviceWorker.register('/service-worker.js');
         });
     }
-   </script>     
+   </script>         
 
--->
+
 
   </body>
 </html>

@@ -104,7 +104,20 @@ const getPixabayPic = async (place) => {
   try {
     // Transform into JSON
     const allData = await getPixabayPic.json();
+    console.log("XXX :  ", allData);
     //console.log(allData);
+
+    //////////// check if imageswere found
+    console.log(allData.total);
+    if (allData.total == "0") {
+      allData.hits = [];
+      let st = {
+        largeImageURL:
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Question_mark.svg/330px-Question_mark.svg.png",
+      };
+      allData.hits.push(st);
+    }
+
     return allData;
   } catch (error) {
     console.log("error", error);
@@ -206,6 +219,11 @@ const getWeather = async (coordinates, d) => {
   let date2 = moment(date).add(1, "d");
   let pastDate = moment(date2).isBefore(moment());
   projectData.current.pastDate = pastDate;
+
+  ////////////////////check day till travel date
+  let daysLeft = moment(date).diff(moment().startOf("day"), "days");
+  console.log("daysLeft: ", daysLeft);
+  projectData.current.daysLeft = daysLeft;
 
   ///////////////////////////////////////////////////
   if (pastDate) {

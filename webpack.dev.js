@@ -29,6 +29,10 @@ module.exports = {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
       },
+      {
+        test: /\.(jpg|png)$/,
+        use: ["url-loader"],
+      },
     ],
   },
   plugins: [
@@ -45,6 +49,6 @@ module.exports = {
       cleanStaleWebpackAssets: true,
       protectWebpackAssets: false,
     }), */
-    //new WorkboxPlugin.GenerateSW(),
+    // new WorkboxPlugin.GenerateSW(),
   ],
 };
