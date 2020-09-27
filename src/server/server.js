@@ -10,8 +10,13 @@ console.log(
 console.log(`Your weatherbit API key is ${process.env.WEATHERBIT_API_KEY}`);
 console.log("------------------------------");
 console.log(" ");
+
 // Setup empty JS object to act as endpoint for all routes
 projectData = { current: {} };
+
+/////////////////
+
+const dateFormat = require("../server/dateFormat");
 
 // Require Express to run server and routes
 const express = require("express");
@@ -32,7 +37,7 @@ const cors = require("cors");
 app.use(cors());
 
 // Initialize the main project folder
-app.use(express.static("src/server"));
+app.use(express.static("dist"));
 
 // Setup Server
 const port = 8081;
@@ -207,10 +212,14 @@ const getWeather_16DaysForecast = async (lat_lng, date) => {
 };
 
 //////////////////////// Compare dates to call the correct API (16 day forecast / climate normals)
-var moment = require("moment");
+//var moment = require("moment");
 
+var moment = require("moment");
 const getWeather = async (coordinates, d) => {
-  let date = d.split("/")[2] + "-" + d.split("/")[1] + "-" + d.split("/")[0];
+  var moment = require("moment");
+  console.log("XXX getWeather XXX");
+  console.log(d);
+  let date = dateFormat(d);
   console.log("date: ", date);
   let today17 = moment().add(17, "d");
   let forecast = moment(date).isBefore(today17);

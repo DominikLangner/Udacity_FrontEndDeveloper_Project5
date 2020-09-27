@@ -2,22 +2,23 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel app</title>
 
   <body>
     <div id="app">
-    <img id="travelImg" />
-      <div class="holder headline">Travel App</div>
-      <div class="holder destination">
+      <img id="travelImg" />
+      <div class="headline">Travel App</div>
+      <div class="destination">
         <label for="destination">Destination</label>
-        <input  type="text" id="destination" placeholder="City, Country" />
+        <input  type="text" id="destination" placeholder="City, Country" required />
       </div>
       <div class="chooseDate">
         <label for="flatpickr">Pick a date for your travel:</label>
-        <input id="flatpickr" placeholder="dd/mm/yyyy" />
+        <input id="flatpickr" placeholder="dd/mm/yyyy"  required/>
       </div>
      
-      <div class="holder entry">
+      <div class="results">
         <div class="title">Weather-Report</div>
         <div id="reportType"></div>
         <div id="entryHolder">

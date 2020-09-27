@@ -9,7 +9,10 @@ flatpickr("#flatpickr", {
   onChange: dateChanged,
 });
 
-import "../views/style.scss";
+import { fields_ok } from "./fields_ok";
+import { dateFormat } from "../../server/dateFormat";
+
+import "../views/styles/style.scss";
 import "../../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 ////////////////////////////////////////
@@ -39,13 +42,4 @@ document.getElementById("destination").addEventListener("change", () => {
     : console.log("no date");
 });
 
-/////////check if fields "destination" & "date" are set
-let fields_ok = () => {
-  let x;
-  document.getElementById("flatpickr").value &&
-  document.getElementById("destination").value
-    ? (x = true)
-    : (x = false);
-  console.log(x);
-  return x;
-};
+export { fields_ok, dateFormat };

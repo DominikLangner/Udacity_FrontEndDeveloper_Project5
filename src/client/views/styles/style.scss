@@ -1,32 +1,51 @@
 body {
   background: #09350d;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-#travelImg {
-  max-height: 30vh;
-  min-height: 150px;
-  width: auto;
-  margin: 20px auto 0 auto;
+  padding: 0;
+  width: 100%;
+  margin: 0;
+  display: flex;
 }
 
 #app {
-  display: grid;
-  grid-auto-rows: minmax(0px, auto);
-  grid-template-columns: 50vw, 50vw;
-  /*height: 100vh;*/
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
   background: #6e8651;
   color: #09350d;
-  justify-content: center;
-  align-items: stretch;
-  grid-gap: 1em;
-  font-size: 20px;
+  font-size: 1.5em;
   font-family: "Oswald", sans-serif;
+  padding: 0.5em;
+  .headline {
+    margin: 1em 0 0.5em 0;
+    font-weight: bolder;
+  }
 }
 
-.holder {
+#travelImg {
+  //width: 30vw;
+  max-height: 30vh;
+  // min-width: 20vw;
+  width: auto;
+  max-width: 100%;
+  margin: 20px auto 0 auto;
 }
 
+.destination,
+.chooseDate,
+.results {
+  margin: 1em 0 0 0;
+  .title {
+    margin: 0.5em 0 0 0;
+    font-weight: bold;
+  }
+  #reportType {
+    margin: 0 0 0.5em 0;
+  }
+}
+/*
 .entry {
   background: #6e8651;
   .title {
@@ -36,40 +55,32 @@ body {
     margin-bottom: 1.5em;
   }
 }
-
-#entryHolder {
-}
-
-#date {
-}
-
-#temp {
-}
-
-#content {
-}
-
-.headline {
-}
-.title {
-}
+*/
 
 /*  Basic Styling To Override Default For Basic HTML Elements */
+/*
 label {
   display: block;
-  font-size: 27px;
+  font-size: 1em;
+  margin: auto;
 }
+*/
 
 input {
   display: block;
-  height: 60px;
-  width: 320px;
+  height: 3em;
+  width: 100%;
+  max-width: 20em;
   background: #216b27;
   background-color: #216b27;
   color: #2e2d29;
-  font-size: 20px;
+  font-size: 1em;
   font-family: "Oswald", sans-serif;
-  border: none;
+  border: 1px solid #216b27;
+  padding: 0;
+}
+input:hover {
+  border: 1px solid greenyellow;
 }
 
 input:-webkit-autofill,
@@ -79,33 +90,15 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 40px #216b27 inset !important;
 }
 
-button {
-  width: 400px;
-  height: 100px;
-  background: #3b4a6b;
-  color: #2e2d29;
-  font-size: 26px;
-  font-family: "Oswald", sans-serif;
-  border: none;
-  box-shadow: 2px 4px 5px #444;
-}
-h1 {
-  font-size: 36px;
+.results {
+  .titel {
+  }
+  #reportType {
+  }
+  #entryHolder {
+  }
 }
 
-textarea {
-  background: #22b2da;
-  color: #2e2d29;
-  font-size: 20px;
-  font-family: "Oswald", sans-serif;
-}
-/* Reset style for HTML element on active to have no border*/
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-  outline: none;
-}
 /* Style for Placeholder Text*/
 ::placeholder {
   /* Firefox, Chrome, Opera */
