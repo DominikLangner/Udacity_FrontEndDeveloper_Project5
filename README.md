@@ -14,7 +14,9 @@ Received Data is stored in localStorage, so the last result can be displayed aga
 - create an .env file in your root folder with your API keys for pixabay, geonames & weatherbit:
 
 PIXABAY_API_KEY ='xxxxxxx'
+
 GEONAMES_API_KEY='xxxxxxx'
+
 WEATHERBIT_API_KEY='xxxxxxx'
 
 ### Run it
